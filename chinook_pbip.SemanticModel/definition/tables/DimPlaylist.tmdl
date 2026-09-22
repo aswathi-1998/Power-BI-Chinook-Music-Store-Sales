@@ -1,0 +1,43 @@
+table DimPlaylist
+	lineageTag: 64ebbe5d-6e56-410c-aa7e-f34265fa4f95
+
+	column PlaylistId
+		dataType: int64
+		formatString: 0
+		lineageTag: cfdc20f5-8817-4ba2-a1c1-91dfcf680530
+		summarizeBy: none
+		sourceColumn: PlaylistId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Playlist Name'
+		dataType: string
+		lineageTag: 00bba12d-b6a5-40fb-ae59-21aac253bc23
+		summarizeBy: none
+		sourceColumn: Playlist Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id_Name = DimPlaylist[PlaylistId] & " - " & DimPlaylist[Playlist Name]
+		lineageTag: 95501a3e-0ca4-44d7-9471-a465b7b8f521
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPlaylist = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost:3306", "chinook"),
+				  #"Navigation 1" = Source{[Schema = "chinook", Item = "playlist"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(#"Navigation 1",{"chinook.playlisttrack"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Name", "Playlist Name"}})
+				in
+				  #"Renamed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

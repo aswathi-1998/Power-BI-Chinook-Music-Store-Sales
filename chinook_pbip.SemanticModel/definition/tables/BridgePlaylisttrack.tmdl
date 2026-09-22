@@ -1,0 +1,37 @@
+table BridgePlaylisttrack
+	lineageTag: 852e8991-10e9-4adc-a739-c803f2eec97b
+
+	column PlaylistId
+		dataType: int64
+		formatString: 0
+		lineageTag: 75f288df-1104-4262-ad5b-1784c6df7172
+		summarizeBy: none
+		sourceColumn: PlaylistId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrackId
+		dataType: int64
+		formatString: 0
+		lineageTag: 82e28b08-fe94-4c82-aa9e-353990e97f0e
+		summarizeBy: none
+		sourceColumn: TrackId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BridgePlaylisttrack = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost:3306", "chinook"),
+				  #"Navigation 1" = Source{[Schema = "chinook", Item = "playlisttrack"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(#"Navigation 1",{"chinook.track", "chinook.playlist"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,137 @@
+{
+  "name": "Chinook Accessible",
+  "dataColors": [
+    "#1F6FB2",
+    "#C2610C",
+    "#12808A",
+    "#8E4B9E",
+    "#B33A3A",
+    "#6B7A1F",
+    "#6E7781",
+    "#1B3A5C"
+  ],
+  "foreground": "#1F2328",
+  "foregroundNeutralSecondary": "#57606A",
+  "background": "#FFFFFF",
+  "backgroundLight": "#F3F4F6",
+  "tableAccent": "#1F6FB2",
+  "good": "#1F6FB2",
+  "neutral": "#6E7781",
+  "bad": "#C2610C",
+  "maximum": "#1B3A5C",
+  "center": "#7FA6CC",
+  "minimum": "#EAF1F8",
+  "textClasses": {
+    "callout": {
+      "fontSize": 32,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2328"
+    },
+    "title": {
+      "fontSize": 20,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2328"
+    },
+    "header": {
+      "fontSize": 16,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#1F2328"
+    },
+    "label": {
+      "fontSize": 14,
+      "fontFace": "Segoe UI",
+      "color": "#57606A"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [
+          {
+            "show": true,
+            "fontSize": 20,
+            "fontFamily": "Segoe UI Semibold",
+            "fontColor": { "solid": { "color": "#1F2328" } }
+          }
+        ],
+        "subTitle": [
+          {
+            "fontSize": 14,
+            "fontColor": { "solid": { "color": "#57606A" } }
+          }
+        ],
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#E1E4E8" } },
+            "radius": 8
+          }
+        ],
+        "dropShadow": [
+          { "show": false }
+        ],
+        "padding": [
+          { "top": 12, "bottom": 12, "left": 16, "right": 16 }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#F3F4F6" } },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "waterfallChart": {
+      "*": {
+        "sentimentColors": [
+          {
+            "increaseFill": { "solid": { "color": "#1F6FB2" } },
+            "decreaseFill": { "solid": { "color": "#C2610C" } },
+            "totalFill": { "solid": { "color": "#1B3A5C" } }
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [
+          { "fontSize": 14 }
+        ],
+        "items": [
+          { "fontSize": 14 }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "columnHeaders": [
+          {
+            "fontSize": 14,
+            "fontFamily": "Segoe UI Semibold",
+            "backColor": { "solid": { "color": "#F3F4F6" } }
+          }
+        ],
+        "values": [
+          { "fontSize": 13 }
+        ],
+        "grid": [
+          {
+            "gridHorizontal": true,
+            "gridHorizontalColor": { "solid": { "color": "#E1E4E8" } }
+          }
+        ]
+      }
+    }
+  }
+}

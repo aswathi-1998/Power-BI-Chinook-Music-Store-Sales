@@ -1,0 +1,32 @@
+table 'Calculation group'
+	lineageTag: 06c9d924-4b80-488a-8b17-559a0decc2ca
+
+	calculationGroup
+
+		calculationItem 'Current Value' = SELECTEDMEASURE()
+
+		calculationItem PY =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    SAMEPERIODLASTYEAR(DimDate[Date])
+				)
+
+	column 'Calculation group column'
+		dataType: string
+		lineageTag: 9fbdbbcd-d0dd-46f4-98c4-199bbf938509
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 0072f600-b86f-4e2b-be2c-95df869b4adf
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

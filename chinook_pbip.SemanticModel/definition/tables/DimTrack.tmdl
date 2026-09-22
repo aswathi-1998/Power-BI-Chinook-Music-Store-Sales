@@ -1,0 +1,245 @@
+table DimTrack
+	lineageTag: 4661206d-b2e7-4728-aa9d-6cc67fe479d2
+
+	column TrackId
+		dataType: int64
+		formatString: 0
+		lineageTag: 94321345-06c6-46e1-818d-b59107513ad3
+		summarizeBy: none
+		sourceColumn: TrackId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Track Name'
+		dataType: string
+		lineageTag: 003b54ca-5917-41fa-ae20-fc0870ff0fa5
+		summarizeBy: none
+		sourceColumn: Track Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AlbumId
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a8ec4a4-71a3-4cf0-a46e-e6626d2d9b8f
+		summarizeBy: none
+		sourceColumn: AlbumId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column MediaTypeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b504218-24c5-496a-8c55-34733d5f555f
+		summarizeBy: none
+		sourceColumn: MediaTypeId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column GenreId
+		dataType: int64
+		formatString: 0
+		lineageTag: f9317faf-092d-4d00-a27a-d46b6e75018d
+		summarizeBy: none
+		sourceColumn: GenreId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column Composer
+		dataType: string
+		lineageTag: 4228b49e-466b-4994-ae8d-4e85daa1629e
+		summarizeBy: none
+		sourceColumn: Composer
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Milliseconds
+		dataType: int64
+		formatString: 0
+		lineageTag: 27e54846-76cb-499e-9a86-1ed2134463f1
+		summarizeBy: none
+		sourceColumn: Milliseconds
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column Bytes
+		dataType: int64
+		formatString: 0
+		lineageTag: 76f70193-ef0c-4dfb-82a9-f27739e457d2
+		summarizeBy: none
+		sourceColumn: Bytes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column ListPrice
+		dataType: double
+		lineageTag: 2111f13d-3c45-4ad0-9ca8-b741d891f8e8
+		summarizeBy: none
+		sourceColumn: ListPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Album Title'
+		dataType: string
+		lineageTag: c0ebd5c8-0658-4475-b93d-0147732c6b8f
+		summarizeBy: none
+		sourceColumn: Album Title
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genre
+		dataType: string
+		lineageTag: ebf3e6bc-cf2c-47eb-96f4-865e6bcca319
+		summarizeBy: none
+		sourceColumn: Genre
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MediaType
+		dataType: string
+		lineageTag: ee5336d2-61c7-4a08-b386-447ffaf98bf7
+		summarizeBy: none
+		sourceColumn: MediaType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DimTrack","TableItemName":"MediaType (groups)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column ArtistId
+		dataType: int64
+		formatString: 0
+		lineageTag: e868b3b7-47e3-4b9b-b8ca-db89fc559ad9
+		summarizeBy: none
+		sourceColumn: ArtistId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'Artist Name'
+		dataType: string
+		lineageTag: 50df0de5-38c4-469b-ac2b-963b7b119dee
+		summarizeBy: none
+		sourceColumn: Artist Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MediaType (groups)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('DimTrack'[MediaType]),
+				"(Blank)",
+				'DimTrack'[MediaType] IN {"AAC audio file",
+					"MPEG audio file",
+					"Protected AAC audio file",
+					"Purchased AAC audio file"},
+				"Audio",
+				'DimTrack'[MediaType] IN {"Protected MPEG-4 video file"},
+				"Video",
+				'DimTrack'[MediaType]
+			)
+		lineageTag: 3e9d5078-0605-49b3-83e5-3390105513c9
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DimTrack"
+				          }
+				        },
+				        "Property": "MediaType"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DimTrack"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"MediaType"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Audio","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"MediaType"}}],"Values":[[{"Literal":{"Value":"'AAC audio file'"}}],[{"Literal":{"Value":"'MPEG audio file'"}}],[{"Literal":{"Value":"'Protected AAC audio file'"}}],[{"Literal":{"Value":"'Purchased AAC audio file'"}}]]}}},{"DisplayName":"Video","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"MediaType"}}],"Values":[[{"Literal":{"Value":"'Protected MPEG-4 video file'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Track Label' =
+			
+			VAR _name = DimTrack[Track Name]
+			VAR _count =
+			    COUNTROWS (
+			        FILTER (
+			            ALL ( DimTrack ),
+			             DimTrack[Track Name] = _name
+			        )
+			    )
+			RETURN
+			    IF ( _count > 1, _name & " (" & DimTrack[TrackId] & ")", _name )
+		lineageTag: ada72468-4b07-44ab-ab3d-046ed475d7d5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Album Label' =
+			
+			VAR _name = DimTrack[Album Title]
+			VAR _albums =
+			    CALCULATE ( DISTINCTCOUNT ( DimTrack[AlbumId] ),
+			                ALLEXCEPT ( DimTrack, DimTrack[Album Title] ) )
+			RETURN IF ( _albums > 1, _name & " (" & DimTrack[AlbumId] & ")", _name )
+		lineageTag: fb442158-ef95-4cc4-a51f-d7645526eaa2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTrack = m
+		mode: import
+		source =
+				let
+				  Source = MySQL.Database("localhost:3306", "chinook"),
+				  #"Navigation 1" = Source{[Schema = "chinook", Item = "track"]}[Data],
+				    #"Expanded chinook.album" = Table.ExpandRecordColumn(#"Navigation 1", "chinook.album", {"Title", "ArtistId", "chinook.artist"}, {"chinook.album.Title", "chinook.album.ArtistId", "chinook.album.chinook.artist"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded chinook.album",{{"chinook.album.Title", "Title"}}),
+				    #"Expanded chinook.genre" = Table.ExpandRecordColumn(#"Renamed Columns", "chinook.genre", {"Name"}, {"chinook.genre.Name"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded chinook.genre",{"chinook.invoiceline"}),
+				    #"Expanded chinook.mediatype" = Table.ExpandRecordColumn(#"Removed Columns", "chinook.mediatype", {"Name"}, {"chinook.mediatype.Name"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded chinook.mediatype",{"chinook.playlisttrack"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns1",{{"chinook.genre.Name", "Genre"}, {"chinook.mediatype.Name", "MediaType"}, {"Title", "Album Title"}}),
+				    #"Expanded chinook.album.chinook.artist" = Table.ExpandRecordColumn(#"Renamed Columns1", "chinook.album.chinook.artist", {"Name"}, {"chinook.album.chinook.artist.Name"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded chinook.album.chinook.artist",{{"chinook.album.chinook.artist.Name", "Artist Name"}, {"chinook.album.ArtistId", "ArtistId"}, {"UnitPrice", "ListPrice"}, {"Name", "Track Name"}})
+				in
+				    #"Renamed Columns2"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

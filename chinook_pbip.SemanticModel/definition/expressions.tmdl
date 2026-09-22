@@ -1,0 +1,143 @@
+expression 'chinook album' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "album"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: c90f297d-cf4b-49a7-9b00-48d1af7830a2
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook artist' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "artist"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 4b80063d-1c0a-44da-b60f-7e4ed75b7a15
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook customer' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "customer"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 27cbfe5a-91fa-4471-b8d2-86037bd00d1d
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook employee' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "employee"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 1df5437c-47e7-4c9e-ac71-edc835d9ac7f
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook genre' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "genre"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 053b9cfe-6c16-415a-969d-9c4ec3741f6e
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook invoice' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "invoice"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: f929e3a7-68ac-4f05-984a-ee92ad981590
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook invoiceline' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "invoiceline"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 122a1997-db45-4069-958d-6938076c58a4
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook mediatype' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "mediatype"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: ed177e35-040f-404b-a841-c29ac3ae9e8a
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook track' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "track"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: dcd2c5dc-6371-4acb-8fef-3dccb0f01419
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook playlisttrack' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "playlisttrack"]}[Data]
+		in
+		    #"Navigation 1"
+	lineageTag: 7107eb59-a7ad-4052-b597-13fe2cbfb160
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'chinook playlist' =
+		let
+		  Source = MySQL.Database("localhost:3306", "chinook"),
+		  #"Navigation 1" = Source{[Schema = "chinook", Item = "playlist"]}[Data]
+		in
+		  #"Navigation 1"
+	lineageTag: 4a2dea22-8e36-4ca3-bbff-6f3eba4bffc2
+	queryGroup: SourceFiles
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,332 @@
+table MeasuresTable
+	lineageTag: a75acf23-77aa-473b-8e27-22f0707e21aa
+
+	measure Sales =
+			
+			SUMX(
+			    FactSales,
+			    FactSales[Quantity]*FactSales[UnitPrice]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 4555fee4-7f88-42b9-9d39-d413a84c93e1
+
+	measure Quantity = SUM(FactSales[Quantity])
+		formatString: 0
+		lineageTag: 7205ca63-5a30-43d4-9202-1fdbd8899e56
+
+	measure 'Sales PY' =
+			
+			CALCULATE(
+			    [Sales],
+			    SAMEPERIODLASTYEAR(DimDate[Date])
+			)
+		lineageTag: 74caaa38-0250-4688-a84a-71a2465660f5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Countries Sold' = CALCULATE(DISTINCTCOUNT(DimCustomer[Country]),FactSales)
+		formatString: 0
+		lineageTag: f55d0051-534c-4aca-b891-3ab8cd444a1e
+
+	measure 'Sales Per Invoice' =
+			
+			DIVIDE([Sales],[Invoice Count])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c4df8c51-f82e-4c4e-8e1d-f9b3bfa1454d
+
+	measure 'Invoice Count' = DISTINCTCOUNT(FactSales[InvoiceId])
+		formatString: 0
+		lineageTag: 0906f517-ed37-4143-864d-cfc79ec5eaa3
+
+	measure 'Avg Price CY' = DIVIDE([Sales],[Quantity])
+		displayFolder: PVM
+		lineageTag: 3c617ffa-6344-4f7e-bd40-49989259792e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity PY' = CALCULATE([Quantity],SAMEPERIODLASTYEAR(DimDate[Date]))
+		formatString: 0
+		lineageTag: aac48528-0be1-4dc1-821e-2d18cbb87453
+
+	measure 'Avg Price PY' = DIVIDE([Sales PY],[Quantity PY])
+		displayFolder: PVM
+		lineageTag: cd4993dc-a361-4ad0-a8b1-fb0902c0d7b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Price PY Adj' = IF(ISBLANK([Avg Price PY]),[Avg Price CY],[Avg Price PY])
+		displayFolder: PVM
+		lineageTag: c6e31bab-81be-4267-8d39-a4ed8de97038
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Effect' =
+			
+			([Quantity]-[Quantity PY])*[Avg Price PY]
+		displayFolder: PVM
+		lineageTag: c9035cea-91e6-4f08-9ad4-5b9b1b7886cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Mix Effect' =
+			
+			SUMX (
+			    VALUES ( DimTrack[Genre] ),
+			    [Quantity] * [Price PY Adj]
+			) - [Quantity] * [Avg Price PY]
+		displayFolder: PVM
+		lineageTag: bc35ba8c-8cda-4818-9410-6c4fbda18a11
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Price Effect' =
+			
+			SUMX (
+			    VALUES ( DimTrack[Genre] ),
+			    [Quantity] * ( [Avg Price CY] - [Price PY Adj] )
+			)
+		displayFolder: PVM
+		lineageTag: bdd7bbe6-16af-40b7-be0f-8a0094504e67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PVM Check' =
+			
+			( [Sales] - [Sales PY] ) - ( [Volume Effect] + [Mix Effect] + [Price Effect] )
+		displayFolder: PVM
+		lineageTag: 38c9dd39-a3a3-4e5c-a23f-f1c4626ade3c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PVM Value' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'PVM Steps'[Step] ),
+			    "Sales PY", [Sales PY],
+			    "Volume", [Volume Effect],
+			    "Mix", [Mix Effect],
+			    "Price", [Price Effect]
+			)
+		displayFolder: PVM
+		lineageTag: 48358745-2da3-49df-ae28-1ba192239253
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Unsold Tracks' = IF(ISBLANK([Sales]),"Yes","No")
+		lineageTag: 4742063a-0e5f-400e-8624-c04ac2362455
+
+	measure 'Unsold Tracks Subtitile' = ```
+			
+			VAR _UnsoldTrackCount = 
+			        COUNTROWS(
+			            FILTER(
+			                DimTrack,
+			                ISBLANK([Sales])
+			            )
+			        ) + 0
+			RETURN
+			"Number of Unsold Tracks : " &_UnsoldTrackCount
+			```
+		lineageTag: b3e9da1d-b475-40d4-af6f-28cd8f00dca4
+
+	measure 'Tracks listed' =
+			
+			COUNTROWS(DimTrack)
+		formatString: 0
+		lineageTag: 5298b7ba-33ac-4dac-831b-68b4c88ca181
+
+	measure 'Distinct Count of Artists' = DISTINCTCOUNT(DimTrack[ArtistId])
+		formatString: 0
+		lineageTag: 4aaef47f-686d-48bc-855f-75c09dc910ef
+
+	measure 'Number of Customers' = DISTINCTCOUNT ( FactSales[CustomerId] )
+		formatString: 0
+		lineageTag: 79c4e76f-5b40-4c4c-b3f0-217bdb4ed7a1
+
+	measure 'Top 5 Customers' = ```
+			
+			VAR _rank_desc = 
+			    RANKX(
+			        ALLSELECTED(DimCustomer[Customer Name]),
+			        [Sales],,
+			        DESC,
+			        Skip
+			    )
+			
+			RETURN
+			IF(_rank_desc<=5,[Sales])
+			```
+		lineageTag: 5174581d-b05a-4b22-993e-566ab73e774e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Customers' = ```
+			
+			VAR _T = 
+			    CALCULATETABLE(ADDCOLUMNS(
+			        VALUES(DimCustomer[CustomerId]),
+			        "_Year",CALCULATE (YEAR(MIN (FactSales[InvoiceDate])))
+			
+			    ),ALL(DimDate))
+			
+			RETURN
+			COUNTROWS(FILTER(_T,[_Year] = SELECTEDVALUE(DimDate[Year]))) + 0
+			```
+		formatString: 0
+		lineageTag: dc29b68b-62af-4fe2-b610-2235a4733081
+
+	measure 'Customer Id TT' = CONCATENATEX(DimCustomer,DimCustomer[CustomerId]," ")
+		lineageTag: 47b145e6-8ada-4449-b0d6-14436faef2a7
+
+	measure 'PVM Title' = ```
+			
+			  IF ( HASONEVALUE ( DimDate[Year] ),
+			     "Sales Bridge: " & ( SELECTEDVALUE ( DimDate[Year] ) - 1 ) & " → " & SELECTEDVALUE ( DimDate[Year] ),
+			     "Select one year to see the sales bridge" )
+			```
+		displayFolder: PVM
+		lineageTag: bd0649ca-1de3-4703-b5b9-183271823f3e
+
+	measure 'Line Chart Title' =
+			
+			SELECTEDVALUE(DimDate[Year],"Overall") & " - Trend"
+		lineageTag: bd7eb89d-fb8b-474e-83e5-a8cf789b9008
+
+	measure 'Customer Name' = MIN(DimCustomer[Customer Name])
+		lineageTag: 4a0d8448-8905-45ac-93a7-bd8fdcdcc8c1
+
+	measure 'Customer Address' = MIN(DimCustomer[Address])
+		lineageTag: aaeeb78a-e448-4253-be7b-31dc1c1e8bd8
+
+	measure 'Customer Tracks Purchased Till Date' = COUNTROWS(FactSales)
+		formatString: 0
+		lineageTag: 237d7cd2-90fe-4278-ad70-c645b1e4f9e2
+
+	measure 'Customer Favorite Genre' = ```
+			
+			VAR _T = 
+			    ADDCOLUMNS(
+			        VALUES(DimTrack[Genre]),
+			            "_Num of Orders",
+			        CALCULATE(
+			            COUNTROWS(FactSales),
+			            KEEPFILTERS(DimCustomer)
+			        )
+			    )
+			
+			VAR _TopTable = 
+			    TOPN(
+			        1,
+			        _T,
+			        [_Num of Orders],DESC
+			    )
+			RETURN
+			CONCATENATEX
+			    (
+			        _TopTable,
+			        DimTrack[Genre],
+			        UNICHAR(10)
+			)
+			```
+		lineageTag: 1502fda9-4039-457d-88e7-2c791cf56832
+
+	measure 'Customer Favorite Artist' = ```
+			
+			VAR _T = 
+			    ADDCOLUMNS(
+			        SUMMARIZE(DimTrack,DimTrack[ArtistId],DimTrack[Artist Name]),
+			            "_Num of Orders",
+			        CALCULATE(
+			            COUNTROWS(FactSales),
+			            KEEPFILTERS(DimCustomer)
+			        )
+			    )
+			
+			VAR _TopTable = 
+			    TOPN(
+			        1,
+			        _T,
+			        [_Num of Orders],DESC
+			    )
+			RETURN
+			CONCATENATEX
+			    (
+			        _TopTable,
+			        DimTrack[Artist Name],
+			        UNICHAR(10)
+			)
+			```
+		lineageTag: e4b38955-f644-4ba2-a2a8-b7f4e2468943
+
+	measure 'Customer Average Days between Orders' = ```
+			
+			VAR _FirstPurchase = 
+			    CALCULATE(
+			        MIN(FactSales[InvoiceDate]),
+			        KEEPFILTERS(DimCustomer)
+			    )
+			
+			VAR _LastPurchase = 
+			    CALCULATE(
+			        MAX(FactSales[InvoiceDate]),
+			        KEEPFILTERS(DimCustomer)
+			    )
+			
+			VAR _Denom = [Invoice Count]-1
+			VAR _Num = DATEDIFF(_FirstPurchase,_LastPurchase,DAY)
+			RETURN
+			DIVIDE(_Num,_Denom)
+			
+			```
+		lineageTag: a50588d7-4fb8-4d9c-af23-bfeda28ea3b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Year Card' = SELECTEDVALUE(DimDate[Year])
+		formatString: 0
+		lineageTag: c6d79a05-0802-42ac-8173-ae5d14733896
+
+	measure 'Display Sales' = FORMAT([Sales], "$#,0.00") & DISPLAYWITHSYMBOLUDF([Sales])
+		lineageTag: a390cdb5-874d-42fc-b458-3d9dba1e5f02
+
+	measure 'Display Quantity' = [Quantity] &DISPLAYWITHSYMBOLUDF([Quantity])
+		lineageTag: a7acdbf0-bfda-43eb-af1b-733638cdd124
+
+	measure 'Display Countries Sold' = [Countries Sold] & DISPLAYWITHSYMBOLUDF([Countries Sold])
+		lineageTag: 20180ee3-23c2-4246-b386-cc769ab560a0
+
+	measure 'Display Sales Per Invoice' = FORMAT([Sales Per Invoice], "$#,0.00")&DISPLAYWITHSYMBOLUDF([Sales Per Invoice])
+		lineageTag: 8e3c7c48-6ec1-4a5a-90da-b9e2acc0427d
+
+	measure 'Display Invoice Count' = [Invoice Count] & DISPLAYWITHSYMBOLUDF([Invoice Count])
+		lineageTag: 96e71689-0df5-4ba0-940d-6cfd1aa35453
+
+	measure 'Customer Support Employee Name' = ```
+			
+			VAR _FirstName = 
+			    SELECTEDVALUE(DimCustomer[Employee_FirstName])
+			
+			
+			VAR _Last_Name = 
+			    SELECTEDVALUE(DimCustomer[Employee_LastName])
+			
+			RETURN
+			_FirstName&" "&_Last_Name
+			```
+		lineageTag: 586198e4-ca25-4012-95eb-37888e164c6a
+
+	partition MeasuresTable = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Column1"})
+				in
+				  #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
