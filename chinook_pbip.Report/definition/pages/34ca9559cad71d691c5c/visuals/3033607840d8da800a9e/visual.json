@@ -1,0 +1,180 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "3033607840d8da800a9e",
+  "position": {
+    "x": 1290.1090909090908,
+    "y": 549.81818181818176,
+    "z": 1000,
+    "height": 287.28,
+    "width": 587.52,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDate"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "DimDate.Year",
+              "nativeQueryRef": "Year"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Sales"
+                }
+              },
+              "queryRef": "MeauresTable.Sales",
+              "nativeQueryRef": "Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Sales PY"
+                }
+              },
+              "queryRef": "MeauresTable.Sales PY",
+              "nativeQueryRef": "Sales PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Quantity"
+                }
+              },
+              "queryRef": "MeauresTable.Quantity",
+              "nativeQueryRef": "Quantity"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Quantity PY"
+                }
+              },
+              "queryRef": "MeauresTable.Quantity PY",
+              "nativeQueryRef": "Quantity PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Volume Effect"
+                }
+              },
+              "queryRef": "MeauresTable.Volume Effect",
+              "nativeQueryRef": "Volume Effect"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Price Effect"
+                }
+              },
+              "queryRef": "MeauresTable.Price Effect",
+              "nativeQueryRef": "Price Effect"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Mix Effect"
+                }
+              },
+              "queryRef": "MeauresTable.Mix Effect",
+              "nativeQueryRef": "Mix Effect"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "PVM Check"
+                }
+              },
+              "queryRef": "MeasuresTable.PVM Check",
+              "nativeQueryRef": "PVM Check"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

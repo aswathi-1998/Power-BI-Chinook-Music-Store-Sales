@@ -1,0 +1,255 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "d5bffb41d363804a6560",
+  "position": {
+    "x": 976.32,
+    "y": 168.48,
+    "z": 2000,
+    "height": 490.32,
+    "width": 922.32,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimTrack"
+                    }
+                  },
+                  "Property": "ArtistId"
+                }
+              },
+              "queryRef": "DimTrack.ArtistId",
+              "nativeQueryRef": "ArtistId",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Sales"
+                }
+              },
+              "queryRef": "MeauresTable.Sales",
+              "nativeQueryRef": "Sales"
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "RUNNINGSUM([Sales],ORDERBY([Sales],DESC))",
+                  "Name": "Running sum Sales"
+                }
+              },
+              "queryRef": "select",
+              "nativeQueryRef": "Running sum Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasuresTable"
+                    }
+                  },
+                  "Property": "Distinct Count of Artists"
+                }
+              },
+              "queryRef": "MeauresTable.Distinct Count of Artists",
+              "nativeQueryRef": "Distinct Count of Artists"
+            },
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "RUNNINGSUM([Distinct Count of Artists],ORDERBY([Sales],DESC))",
+                  "Name": "Running Sum of Artists"
+                }
+              },
+              "queryRef": "select1",
+              "nativeQueryRef": "Running Sum of Artists",
+              "hidden": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "DIVIDE([Running Sum of Artists], COLLAPSEALL([Running Sum of Artists], ROWS))",
+                  "Name": "RT of % of Artists"
+                }
+              },
+              "queryRef": "select2",
+              "nativeQueryRef": "RT of % of Artists",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "NativeVisualCalculation": {
+                  "Language": "dax",
+                  "Expression": "DIVIDE([Running sum Sales], COLLAPSEALL([Running sum Sales], ROWS))",
+                  "Name": "RT of % of Sales"
+                }
+              },
+              "queryRef": "select3",
+              "nativeQueryRef": "RT of % of Sales"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "y1AxisReferenceLine": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'y=80'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.8D"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'back'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "1"
+          }
+        }
+      ],
+      "xAxisReferenceLine": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'x=20'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.2D"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'back'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "1"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Are 20% of the artists responsible for 80% of Sales ?'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Analysing the Pareto Principle'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

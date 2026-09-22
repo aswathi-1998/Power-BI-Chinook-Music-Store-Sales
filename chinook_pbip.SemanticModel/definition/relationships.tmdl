@@ -1,0 +1,21 @@
+relationship 3aa1742b-2ec4-fae8-a6cd-1b8139b31b80
+	fromColumn: FactSales.CustomerId
+	toColumn: DimCustomer.CustomerId
+
+relationship e474cd7b-e382-4b57-7625-0df1c7230c2e
+	fromColumn: FactSales.TrackId
+	toColumn: DimTrack.TrackId
+
+relationship e4f6ea54-43da-89cf-464d-5f8813883d22
+	crossFilteringBehavior: bothDirections
+	fromColumn: BridgePlaylisttrack.TrackId
+	toColumn: DimTrack.TrackId
+
+relationship AutoDetected_3132cb1f-62d6-425f-bfb1-58d3ff130027
+	fromColumn: BridgePlaylisttrack.PlaylistId
+	toColumn: DimPlaylist.PlaylistId
+
+relationship ac5cbe47-97ba-4b9c-1ea4-f13e71daac09
+	fromColumn: FactSales.InvoiceDate
+	toColumn: DimDate.Date
+
