@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "chinook"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fcb73edc-7c27-440e-b800-a98663694f4e"
+  }
+}

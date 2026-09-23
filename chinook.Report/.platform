@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "chinook"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d6d5a818-c234-45eb-ac6a-faa7f1c5dc36"
+  }
+}

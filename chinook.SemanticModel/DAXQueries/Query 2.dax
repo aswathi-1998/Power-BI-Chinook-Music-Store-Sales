@@ -1,0 +1,6 @@
+EVALUATE
+    CALCULATETABLE(ADDCOLUMNS(
+        VALUES(DimCustomer[CustomerId]),
+        "_Year",MIN(DimDate[Year])
+
+    ),ALL(DimDate[Year]))
