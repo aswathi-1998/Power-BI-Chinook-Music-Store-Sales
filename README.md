@@ -57,7 +57,8 @@ The Data model in Power Query was created as follows:
           "MonthNo", MONTH([Date]),
           "Quarter", "Q" & QUARTER([Date]),
           "YearMonth", FORMAT([Date], "YYYY-MM")
-      )```
+      )
+   ```
 ## Data Analysis and Insights
 
 ### The Report
